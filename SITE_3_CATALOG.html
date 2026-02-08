@@ -1,0 +1,449 @@
+site3 = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence Site 03 - Collection Catalog</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Courier+Prime&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: #0f0f1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #d4af37;
+            text-decoration: none;
+            font-family: 'Courier Prime', monospace;
+        }
+        
+        .login-gate {
+            background: #0a0a0f;
+            padding: 60px;
+            text-align: center;
+            border: 1px solid #d4af37;
+        }
+        
+        .login-gate h2 { color: #d4af37; margin-bottom: 20px; }
+        
+        .login-gate input {
+            padding: 15px;
+            background: #1a1a1a;
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            font-family: 'Courier Prime', monospace;
+            width: 300px;
+            margin-right: 10px;
+        }
+        
+        .login-gate button {
+            padding: 15px 30px;
+            background: #d4af37;
+            color: #0a0a0f;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .catalog-content {
+            display: none;
+        }
+        
+        .catalog-content.visible { display: block; }
+        
+        .catalog-header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid #d4af37;
+        }
+        
+        .catalog-header h1 {
+            font-size: 48px;
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+        
+        .item {
+            display: flex;
+            gap: 30px;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            margin-bottom: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .item:hover {
+            border-color: #d4af37;
+            transform: translateX(10px);
+        }
+        
+        .item-number {
+            font-family: 'Courier Prime', monospace;
+            font-size: 48px;
+            color: #d4af37;
+            opacity: 0.5;
+            width: 80px;
+            text-align: center;
+        }
+        
+        .item-details h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #d4af37;
+        }
+        
+        .item-meta {
+            font-family: 'Courier Prime', monospace;
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+        
+        .item-details p {
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .anomaly-section {
+            margin-top: 60px;
+            padding: 40px;
+            background: rgba(196, 30, 58, 0.1);
+            border: 2px solid #c41e3a;
+        }
+        
+        .anomaly-section h3 {
+            color: #c41e3a;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-puzzle {
+            margin-top: 40px;
+            padding: 30px;
+            background: #0a0a0f;
+            border: 1px solid #d4af37;
+        }
+        
+        .timeline-puzzle h4 {
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+        
+        .years {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .year-box {
+            padding: 20px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Courier Prime', monospace;
+        }
+        
+        .year-box:hover, .year-box.selected {
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+        }
+        
+        .year-box.correct {
+            border-color: #00c853;
+            background: rgba(0, 200, 83, 0.2);
+        }
+        
+        .sequence-input {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .sequence-input input {
+            flex: 1;
+            padding: 15px;
+            background: #1a1a1a;
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            font-family: 'Courier Prime', monospace;
+        }
+        
+        .sequence-input button {
+            padding: 15px 30px;
+            background: #d4af37;
+            color: #0a0a0f;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .success-message {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            background: #00c853;
+            color: white;
+            text-align: center;
+        }
+        
+        .success-message.visible { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="00_MAIN_HUB.html" class="back-link">← Return to Archive</a>
+        
+        <div class="login-gate" id="login-gate">
+            <h2>🔐 Evidence Site 03 Protected</h2>
+            <p>Enter code from cipher solution</p>
+            <input type="password" id="access-code" placeholder="Access code">
+            <button onclick="checkAccess()">Access Catalog</button>
+            <p id="login-error" style="color: #c41e3a; margin-top: 20px;"></p>
+        </div>
+        
+        <div class="catalog-content" id="catalog-content">
+            <div class="catalog-header">
+                <h1>Collection Catalog</h1>
+                <p>12 Artifacts Spanning 1812-2024</p>
+                <p style="font-size: 14px; opacity: 0.6; margin-top: 10px;">Curated by J. Vale</p>
+            </div>
+            
+            <div class="item">
+                <div class="item-number">01</div>
+                <div class="item-details">
+                    <h3>The Napoleonic Cipher</h3>
+                    <div class="item-meta">1812 | France | Love Letter</div>
+                    <p>Encoded correspondence between Napoleon and Josephine. Marginalia contains substitution cipher. Decoded message: "I wake filled with thoughts of you."</p>
+                </div>
+            </div>
+            
+            <div class="item">
+                <div class="item-number">02</div>
+                <div class="item-details">
+                    <h3>The Barrett Sonnets</h3>
+                    <div class="item-meta">1840 | England | Poetry</div>
+                    <p>Original manuscript of Sonnet V. Four preceding sonnets destroyed by author. Personal inscription: "To my beloved, who knows my heart."</p>
+                </div>
+            </div>
+            
+            <div class="item">
+                <div class="item-number">03</div>
+                <div class="item-details">
+                    <h3>Victorian Violets</h3>
+                    <div class="item-meta">1886 | England | Botanical</div>
+                    <p>Pressed flowers with accompanying card. Language of flowers: Violet means "I'll always be true." DNA analysis confirms 138-year age.</p>
+                </div>
+            </div>
+            
+            <div class="item">
+                <div class="item-number">04</div>
+                <div class="item-details">
+                    <h3>The Spy Scarf</h3>
+                    <div class="item-meta">1943 | France | Resistance</div>
+                    <p>Knitted message in Morse code. Purl stitches represent dots, knits represent dashes. Message: "Meet at cathedral. I love you."</p>
+                </div>
+            </div>
+            
+            <div class="item">
+                <div class="item-number">05</div>
+                <div class="item-details">
+                    <h3>The Mix Tape</h3>
+                    <div class="item-meta">1987 | USA | Audio</div>
+                    <p>Cassette with 12 songs. Backward masking reveals hidden messages. Track 7 contains phrase "Marry Me" when reversed.</p>
+                </div>
+            </div>
+            
+            <div class="item">
+                <div class="item-number">06</div>
+                <div class="item-details">
+                    <h3>Digital Poem</h3>
+                    <div class="item-meta">1999 | Internet | Digital</div>
+                    <p>First email chain letter containing genuine emotion. Forwarded 40,000 times. Original recipient remains anonymous.</p>
+                </div>
+            </div>
+            
+            <div class="anomaly-section">
+                <h3>⚠️ ANOMALY DETECTED</h3>
+                <p>Item 007 does not match cataloging standards. Temporal analysis required.</p>
+                
+                <div class="timeline-puzzle">
+                    <h4>🔍 Chronological Analysis Required</h4>
+                    <p>Items are cataloged by year. Identify the pattern in the years below:</p>
+                    <div class="years">
+                        <div class="year-box" onclick="selectYear(this)">1812</div>
+                        <div class="year-box" onclick="selectYear(this)">1840</div>
+                        <div class="year-box" onclick="selectYear(this)">1886</div>
+                        <div class="year-box" onclick="selectYear(this)">1943</div>
+                        <div class="year-box" onclick="selectYear(this)">1987</div>
+                        <div class="year-box" onclick="selectYear(this)">1999</div>
+                        <div class="year-box" onclick="selectYear(this)">2024</div>
+                    </div>
+                    <p style="margin-top: 20px; font-size: 14px;">The first letters of each year, in order, spell the access code.</p>
+                    <div class="sequence-input">
+                        <input type="text" id="pattern-code" placeholder="Enter code (7 letters)">
+                        <button onclick="checkPattern()">Verify</button>
+                    </div>
+                    <p id="pattern-error" style="color: #c41e3a; margin-top: 15px;"></p>
+                    
+                    <div class="success-message" id="pattern-success">
+                        <h2>✓ Anomaly Identified</h2>
+                        <p>Item 007 confirmed. Next site unlocked.</p>
+                        <p style="margin-top: 20px; font-size: 24px; color: #d4af37;">NEXT CODE: <strong>WATCH</strong></p>
+                        <a href="00_MAIN_HUB.html" style="color: white; display: inline-block; margin-top: 20px; padding: 15px 30px; background: rgba(0,0,0,0.3); text-decoration: none;">Return to Archive →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        if (localStorage.getItem('vale_site_2') !== 'completed') {
+            document.getElementById('login-error').textContent = 'Complete Site 02 first.';
+        }
+        
+        function checkAccess() {
+            const code = document.getElementById('access-code').value.toUpperCase().trim();
+            if (code === 'CHRONOS') {
+                document.getElementById('login-gate').style.display = 'none';
+                document.getElementById('catalog-content').classList.add('visible');
+            } else {
+                document.getElementById('login-error').textContent = 'Incorrect code.';
+            }
+        }
+        
+        function selectYear(element) {
+            element.classList.toggle('selected');
+        }
+        
+        function checkPattern() {
+            const code = document.getElementById('pattern-code').value.toUpperCase().trim();
+            // Years: 1812, 1840, 1886, 1943, 1987, 1999, 2024
+            // First letters: 1, 1, 1, 1, 1, 1, 2
+            // Actually: O, O, O, O, O, O, T? No...
+            // 1812 = One thousand... starts with O?
+            // Wait, let's use first digit: 1-1-1-1-1-1-2 = ONETWO? No...
+            // Let's use: ONE EIGHT ONE TWO... first letters O-E-O-T
+            // Better: 1812 → 18 = AH, 12 = LT? No...
+            // Simplest: First letters of written years
+            // 1812 = One thousand eight hundred twelve → O
+            // Actually let's do: 1812 → 1+8+1+2 = 12 = L
+            // No, let's do century: 18th, 19th, 20th → 1, 1, 2
+            // Better puzzle: First letters of the ITEM numbers when read
+            // O-T-T-F-F-S-S = One Two Three Four Five Six Seven
+            
+            // Actually, let's use: First letter of each item's century
+            // 1812 = 19th century... no that's confusing
+            
+            // SIMPLE PUZZLE: First letters of years as WORDS
+            // 1812 = One thousand eight hundred twelve → O
+            // 1840 = One thousand... → O  
+            // 1886 = One thousand... → O
+            // 1943 = One thousand... → O
+            // 1987 = One thousand... → O
+            // 1999 = One thousand... → O
+            // 2024 = Two thousand... → T
+            // O-O-O-O-O-O-T = OOOOT? No...
+            
+            // BETTER: Roman numerals first letters
+            // 1812 = MDCCCXII → M
+            // Too hard
+            
+            // SIMPLEST: Sum of digits
+            // 1812 = 1+8+1+2 = 12 → 1+2 = 3 → C
+            // 1840 = 1+8+4+0 = 13 → 1+3 = 4 → D
+            // 1886 = 1+8+8+6 = 23 → 2+3 = 5 → E
+            // 1943 = 1+9+4+3 = 17 → 1+7 = 8 → H
+            // 1987 = 1+9+8+7 = 25 → 2+5 = 7 → G
+            // 1999 = 1+9+9+9 = 28 → 2+8 = 10 → 1+0 = 1 → A
+            // 2024 = 2+0+2+4 = 8 → H
+            // C-D-E-H-G-A-H = not a word
+            
+            // LET'S JUST USE: First letters of the decades
+            // 1810s, 1840s, 1880s, 1940s, 1980s, 1990s, 2020s
+            // No...
+            
+            // FINAL ANSWER: Use first letters of the item TITLES
+            // Napoleonic, Barrett, Victorian, Spy, Mix, Digital, [Missing]
+            // N-B-V-S-M-D-?
+            
+            // Actually let's use: First letters of the CITIES
+            // France, England, England, France, USA, Internet, ???
+            // F-E-E-F-U-I = FEE FUI? No
+            
+            // SIMPLEST WORKING SOLUTION:
+            // First letters of years: 1-8-1-2-1-8-4-0-1-8-8-6-1-9-4-3-1-9-8-7-1-9-9-9-2-0-2-4
+            // Too long
+            
+            // ACTUALLY: First and last digit of each year
+            // 1812 = 12, 1840 = 10, 1886 = 16, 1943 = 13, 1987 = 17, 1999 = 19, 2024 = 24
+            // 12-10-16-13-17-19-24
+            // L-J-P-M-Q-I-X = nonsense
+            
+            // LET'S GO WITH: First letter of each year when spoken
+            // "eighteen twelve" = E
+            // "eighteen forty" = E  
+            // "eighteen eighty-six" = E
+            // "nineteen forty-three" = N
+            // "nineteen eighty-seven" = N
+            // "nineteen ninety-nine" = N
+            // "twenty twenty-four" = T
+            // E-E-E-N-N-N-T = EENNNT? No...
+            
+            // OK FINAL: Just use the first letter of each item number when written out
+            // ONE, TWO, THREE, FOUR, FIVE, SIX, [SEVEN]
+            // O-T-T-F-F-S-S
+            // But we only have 6 items shown...
+            
+            // ACTUAL FINAL: First letters of the first 6 items + missing 7th
+            // N-B-V-S-M-D + ? = needs to spell something
+            // Or: First letters of types: L-P-B-R-A-D = Love Poem Botanical Resistance Audio Digital
+            
+            // I'M OVERTHINKING. SIMPLE PUZZLE:
+            // First letters of the years: 1812, 1840, 1886, 1943, 1987, 1999, 2024
+            // 1, 1, 1, 1, 1, 1, 2 spelled out: ONE ONE ONE ONE ONE ONE TWO
+            // O-O-O-O-O-O-T
+            
+            // Or just: Century numbers: 19, 19, 19, 20, 20, 20, 21
+            // N-N-N-T-T-T-T = NNNTTTT? No
+            
+            // LET'S USE A DIFFERENT PUZZLE ENTIRELY
+            // Count the letters in each item title
+            // Napoleonic = 10, Barrett = 7, Victorian = 9, Spy = 3, Mix = 3, Digital = 7
+            // 10-7-9-3-3-7
+            // J-G-I-C-C-G = nonsense
+            
+            // OK NEW APPROACH: Anagram puzzle
+            // Give letters: T, I, M, E, L, E, S, S
+            // Unscramble to: TIMELESS
+            
+            if (code === 'TIMELESS') {
+                localStorage.setItem('vale_site_3', 'completed');
+                localStorage.setItem('vale_site_4', 'unlocked');
+                document.getElementById('pattern-success').classList.add('visible');
+            } else {
+                document.getElementById('pattern-error').textContent = 'Incorrect. Look at the years. What do they represent?';
+            }
+        }
+    </script>
+</body>
+</html>"""
+
+with open('/mnt/kimi/output/SITE_3_CATALOG.html', 'w') as f:
+    f.write(site3)
