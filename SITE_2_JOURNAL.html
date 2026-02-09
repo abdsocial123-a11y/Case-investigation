@@ -176,7 +176,7 @@ site2 = """<!DOCTYPE html>
             
             <div class="entry">
                 <div class="entry-date">January 3rd, 2024</div>
-                <p>Studying Napoleonic ciphers. The 1812 letter contains marginalia—numbers that correspond to letters. Their passion was encryption. The sequence begins with 8.</p>
+                <p>Studying Napoleonic ciphers. The 1812 letter contains marginalia—numbers that correspond to letters. Their passion was encryption. The sequence begins with 11.</p>
                 <div class="margin-note">8</div>
             </div>
             
@@ -200,26 +200,26 @@ site2 = """<!DOCTYPE html>
             
             <div class="entry">
                 <div class="entry-date">February 1st, 2024</div>
-                <p>Modern analysis: perfect gesture needs surprise, effort, personal knowledge. Subject prefers tea at 4pm. Laughs at puns. Studies crime. The first letter is A.</p>
+                <p>Modern analysis: perfect gesture needs surprise, effort, personal knowledge. Subject prefers tea at 4pm. Laughs at puns. Studies crime. The first letter is K.</p>
                 <div class="margin-note">1</div>
             </div>
             
             <div class="entry">
                 <div class="entry-date">February 5th, 2024</div>
-                <p>Collection nears completion. Twelve items, two centuries. Final piece requires subject to solve. She will decode her own name. M is the 13th.</p>
+                <p>Collection nears completion. Twelve items, two centuries. Final piece requires subject to solve. She will decode her own name. H is the 8th.</p>
                 <div class="margin-note">13</div>
             </div>
             
             <div class="entry">
                 <div class="entry-date">February 10th, 2024</div>
-                <p>Final entry. All systems ready. She will investigate. She will discover herself at the center. The cipher is the key. The last number is 5.</p>
+                <p>Final entry. All systems ready. She will investigate. She will discover herself at the center. The cipher is the key. The last number is 9.</p>
                 <div class="margin-note">5</div>
             </div>
             
             <div class="cipher-challenge">
                 <h3>🔐 Cryptographic Challenge</h3>
                 <p>Decode the margin sequence to reveal the subject's identity:</p>
-                <div class="sequence">8 - 5 - 18 - 14 - 1 - 13 - 5</div>
+                <div class="sequence">11 - 1 - 12 - 5 - 19 - 8 - 9</div>
                 <p style="font-size: 14px; opacity: 0.8;">A=1, B=2, C=3, D=4, E=5, F=6, G=7, H=8...</p>
                 
                 <div class="cipher-input">
@@ -256,7 +256,7 @@ site2 = """<!DOCTYPE html>
         
         function checkCipher() {
             const answer = document.getElementById('cipher-answer').value.toLowerCase().trim();
-            const correct = 'hername'; // CHANGE TO HER NAME
+            const correct = 'kaleshi'; // CHANGE TO HER NAME
             
             if (answer === correct) {
                 localStorage.setItem('vale_site_2', 'completed');
@@ -270,6 +270,4 @@ site2 = """<!DOCTYPE html>
 </body>
 </html>"""
 
-with open('/mnt/kimi/output/SITE_2_JOURNAL.html', 'w') as f:
-    f.write(site2)
 
